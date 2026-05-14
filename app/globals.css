@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-surface text-ink font-sans antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+  ::selection {
+    background-color: rgba(27, 91, 255, 0.18);
+    color: #0a1628;
+  }
+  /* Focus rings */
+  *:focus-visible {
+    outline: 2px solid #1B5BFF;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  /* Hide spinners on number inputs */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none; margin: 0;
+  }
+  input[type="number"] { -moz-appearance: textfield; }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-[10px] text-sm font-medium leading-none
+           transition-all duration-150 whitespace-nowrap;
+  }
+  .btn-primary {
+    @apply btn bg-ink text-white shadow hover:bg-ink-2 hover:-translate-y-px hover:shadow-lg;
+  }
+  .btn-accent {
+    @apply btn bg-accent text-white shadow-accent hover:bg-accent-ink hover:-translate-y-px;
+  }
+  .btn-ghost {
+    @apply btn bg-transparent border border-line text-ink hover:bg-card hover:border-ink;
+  }
+  .btn-soft {
+    @apply btn bg-card border border-line text-ink hover:border-ink/30 hover:shadow;
+  }
+  .btn:disabled {
+    @apply opacity-60 cursor-not-allowed pointer-events-none;
+  }
+
+  .input {
+    @apply w-full px-3.5 py-2.5 rounded-[10px] bg-card border border-line text-ink
+           placeholder:text-muted focus:border-accent focus:ring-4 focus:ring-accent/15 focus:outline-none
+           transition-colors;
+  }
+  .input-error {
+    @apply border-coral focus:border-coral focus:ring-coral/20;
+  }
+  .label {
+    @apply block text-sm font-medium text-ink mb-1.5;
+  }
+  .hint {
+    @apply text-xs text-muted mt-1;
+  }
+  .err {
+    @apply text-xs text-coral mt-1;
+  }
+
+  .card {
+    @apply bg-card border border-line rounded-[16px] shadow-sm;
+  }
+  .card-hover {
+    @apply transition-all duration-200 hover:shadow-lg hover:-translate-y-[1px] hover:border-line;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.04em] text-mid;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 6px; height: 6px; border-radius: 9999px;
+    background: #1B5BFF;
+    box-shadow: 0 0 0 4px rgba(27, 91, 255, 0.12);
+  }
+
+  .skeleton {
+    @apply relative overflow-hidden bg-line-soft rounded-md;
+  }
+  .skeleton::after {
+    content: "";
+    @apply absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/80 to-transparent;
+    animation: shimmer 1.8s linear infinite;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-medium rounded-full;
+  }
+  .badge-good     { @apply bg-good/10 text-good; }
+  .badge-warn     { @apply bg-warn/10 text-warn; }
+  .badge-danger   { @apply bg-coral/10 text-coral; }
+  .badge-neutral  { @apply bg-line-soft text-mid; }
+  .badge-accent   { @apply bg-accent-soft text-accent-ink; }
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+/* For the landing page hero animation */
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+@keyframes pulse-ring {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.55; transform: scale(1.04); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

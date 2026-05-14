@@ -1,6 +1,29 @@
-.DS_Store
-.vercel
+# Dependencies
 node_modules
-*.log
+.pnp
+.pnp.js
+
+# Next.js
+.next
+out
+build
+dist
+*.tsbuildinfo
+next-env.d.ts
+
+# Production
+.vercel
+
+# Local env
 .env
 .env.local
+.env*.local
+
+# OS / Editor
+.DS_Store
+*.log
+.idea
+.vscode
+
+# Drizzle
+drizzle/meta
