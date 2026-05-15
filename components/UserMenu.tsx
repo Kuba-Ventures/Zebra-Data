@@ -20,6 +20,7 @@ export function UserMenu({ email }: { email: string }) {
   const initials = (email || "U").slice(0, 1).toUpperCase();
 
   const signOut = async () => {
+    await fetch("/api/auth/demo", { method: "DELETE" }).catch(() => {});
     await getSupabaseBrowser().auth.signOut();
     router.replace("/");
     router.refresh();

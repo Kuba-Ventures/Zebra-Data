@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { getUser } from "@/lib/supabase/server";
+import { getUser, isDemoSession } from "@/lib/supabase/server";
 import { db } from "@/lib/db";
 import { patientProfiles } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
@@ -12,15 +12,18 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const user = await getUser();
   if (!user) redirect("/login");
 
-  // Returning users only — bounce to intake if not complete.
-  const [profile] = await db
-    .select({ intakeCompletedAt: patientProfiles.intakeCompletedAt })
-    .from(patientProfiles)
-    .where(eq(patientProfiles.userId, user.id))
-    .limit(1);
+  // Demo sessions skip the intake-completion gate so the product UI is visible.
+  const demo = await isDemoSession();
+  if (!demo) {
+    const [profile] = await db
+      .select({ intakeCompletedAt: patientProfiles.intakeCompletedAt })
+      .from(patientProfiles)
+      .where(eq(patientProfiles.userId, user.id))
+      .limit(1);
 
-  if (!profile?.intakeCompletedAt) {
-    redirect("/intake");
+    if (!profile?.intakeCompletedAt) {
+      redirect("/intake");
+    }
   }
 
   return (

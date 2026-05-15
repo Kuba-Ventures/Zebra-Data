@@ -1,9 +1,10 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { DEMO_COOKIE, parseDemoCookieValue } from "@/lib/demo";
 
 const PUBLIC_PATHS = [
   "/", "/login", "/auth/callback", "/auth/forgot", "/auth/reset",
-  "/api/cron", "/_next", "/favicon", "/robots.txt",
+  "/api/auth/demo", "/api/cron", "/_next", "/favicon", "/robots.txt",
 ];
 
 function isPublic(path: string) {
@@ -12,6 +13,17 @@ function isPublic(path: string) {
 
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
+
+  const demo = parseDemoCookieValue(request.cookies.get(DEMO_COOKIE)?.value);
+  if (demo) {
+    const path = request.nextUrl.pathname;
+    if (path === "/login") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/dashboard";
+      return NextResponse.redirect(url);
+    }
+    return response;
+  }
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

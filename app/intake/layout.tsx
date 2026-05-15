@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getUser } from "@/lib/supabase/server";
+import { getUser, isDemoSession } from "@/lib/supabase/server";
 import { db } from "@/lib/db";
 import { patientProfiles } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
@@ -10,6 +10,11 @@ import { UserMenu } from "@/components/UserMenu";
 export default async function IntakeLayout({ children }: { children: React.ReactNode }) {
   const user = await getUser();
   if (!user) redirect("/login");
+
+  // Demo sessions go straight to the dashboard — intake writes need a real Supabase user.
+  if (await isDemoSession()) {
+    redirect("/dashboard");
+  }
 
   // Already completed → dashboard
   const [profile] = await db
