@@ -158,15 +158,66 @@ function StatusBadge({ connection }: { connection: Connection | null }) {
   return <span className="badge badge-neutral">Pending</span>;
 }
 
+// Brand-site domains used to fetch each source's real favicon as its logo.
+const LOGO_DOMAINS: Record<string, string> = {
+  mychart: "mychart.com",
+  cerner: "cerner.com",
+  athenahealth: "athenahealth.com",
+  nextgen: "nextgen.com",
+  eclinicalworks: "eclinicalworks.com",
+  whoop: "whoop.com",
+  oura: "ouraring.com",
+  apple_health: "apple.com",
+  fitbit: "fitbit.com",
+  garmin: "garmin.com",
+  strava: "strava.com",
+  myfitnesspal: "myfitnesspal.com",
+  cronometer: "cronometer.com",
+  peloton: "onepeloton.com",
+  quest: "questdiagnostics.com",
+  labcorp: "labcorp.com",
+  twentythreeandme: "23andme.com",
+  function: "functionhealth.com",
+  cvs: "cvs.com",
+  walgreens: "walgreens.com",
+  riteaid: "riteaid.com",
+  headspace: "headspace.com",
+  calm: "calm.com",
+  eight_sleep: "eightsleep.com",
+};
+
 function Logo({ entry }: { entry: CatalogEntry }) {
+  const [errored, setErrored] = useState(false);
+  const domain = LOGO_DOMAINS[entry.id];
   const initial = entry.name.replace(/^MyChart \(Epic\)$/, "Epic").charAt(0);
+
+  if (!domain || errored) {
+    return (
+      <div
+        className="w-10 h-10 rounded-lg grid place-items-center font-display font-semibold text-white text-base flex-none"
+        style={{ background: entry.brandHue }}
+        aria-hidden
+      >
+        {initial}
+      </div>
+    );
+  }
+
   return (
     <div
-      className="w-10 h-10 rounded-lg grid place-items-center font-display font-semibold text-white text-base flex-none"
-      style={{ background: entry.brandHue }}
+      className="w-10 h-10 rounded-lg grid place-items-center flex-none overflow-hidden bg-white border border-line"
       aria-hidden
     >
-      {initial}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`https://www.google.com/s2/favicons?domain=${domain}&sz=128`}
+        alt=""
+        width={28}
+        height={28}
+        loading="lazy"
+        className="w-7 h-7 object-contain"
+        onError={() => setErrored(true)}
+      />
     </div>
   );
 }
