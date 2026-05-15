@@ -9,6 +9,9 @@ import {
   HealthSummaryCard, WearablesCard, BloodworkCard, MedicationsCard,
   AllergiesConditionsCard, VisitsCard, ImagingCard, FitnessNutritionCard, MentalHealthSleepCard,
 } from "@/components/dashboard/Cards";
+import { HeroStats, type HeroFreshnessEntry } from "@/components/dashboard/HeroStats";
+import { CATALOG, getCatalogEntry } from "@/lib/connectors/catalog";
+import { CATEGORY_LABEL, type ConnectorCategory } from "@/lib/connectors/types";
 
 export const metadata = { title: "Dashboard · Zebra Data" };
 
@@ -48,6 +51,8 @@ export default async function DashboardPage() {
     return acc;
   }, {});
 
+  const heroData = buildHeroData(conns);
+
   const greeting = greetingFor(profile?.preferredName || profile?.legalFirstName || "there");
 
   return (
@@ -65,6 +70,8 @@ export default async function DashboardPage() {
           </p>
         </div>
       </div>
+
+      <HeroStats {...heroData} />
 
       <div className="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
         <HealthSummaryCard records={recordsByType.vital ?? []} />
@@ -86,4 +93,98 @@ function greetingFor(name: string) {
   const h = new Date().getHours();
   const greeting = h < 5 ? "Up late" : h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
   return `${greeting}, ${name}.`;
+}
+
+type ConnRow = {
+  sourceId: string;
+  status: string;
+  connectedAt: Date | null;
+  lastSyncAt: Date | null;
+};
+
+function buildHeroData(conns: ConnRow[]) {
+  const connected = conns.filter((c) => c.status === "connected");
+
+  const categoriesConnected = new Set<ConnectorCategory>();
+  const freshnessByCategory = new Map<ConnectorCategory, Date | null>();
+  const connectedBySourceBase = new Map<string, ConnRow>();
+
+  for (const c of connected) {
+    const entry = getCatalogEntry(c.sourceId);
+    if (!entry) continue;
+    categoriesConnected.add(entry.category);
+    connectedBySourceBase.set(entry.id, c);
+    const prev = freshnessByCategory.get(entry.category) ?? null;
+    const ts = c.lastSyncAt;
+    if (ts && (!prev || ts.getTime() > prev.getTime())) {
+      freshnessByCategory.set(entry.category, ts);
+    } else if (!prev) {
+      freshnessByCategory.set(entry.category, null);
+    }
+  }
+
+  const freshness: HeroFreshnessEntry[] = Array.from(freshnessByCategory.entries()).map(
+    ([category, ts]) => ({
+      category,
+      label: CATEGORY_LABEL[category],
+      lastSyncAt: ts ? ts.toISOString() : null,
+    }),
+  );
+
+  const lastConnectedAt =
+    connected
+      .map((c) => c.connectedAt)
+      .filter((d): d is Date => !!d)
+      .sort((a, b) => b.getTime() - a.getTime())[0] ?? null;
+
+  const thirtyDaysAgo = Date.now() - 1000 * 60 * 60 * 24 * 30;
+  const monthlyConnections = connected.filter(
+    (c) => c.connectedAt && c.connectedAt.getTime() >= thirtyDaysAgo,
+  ).length;
+
+  // Most recent activity rows for the expandable streak timeline.
+  const recentActivity = connected
+    .filter((c) => !!c.connectedAt)
+    .sort((a, b) => b.connectedAt!.getTime() - a.connectedAt!.getTime())
+    .slice(0, 5)
+    .map((c) => {
+      const entry = getCatalogEntry(c.sourceId);
+      return {
+        sourceName: entry?.name ?? c.sourceId,
+        connectedAt: c.connectedAt!.toISOString(),
+      };
+    });
+
+  // Badge unlock rules — derived purely from current connection state.
+  const ehrIds = CATALOG.filter((c) => c.category === "ehr").map((c) => c.id);
+  const wearableConnectedCount = CATALOG.filter(
+    (c) => c.category === "wearable" && connectedBySourceBase.has(c.id),
+  ).length;
+  const allEmrsLinked = ehrIds.every((id) => connectedBySourceBase.has(id));
+  const firstConnectionAt = connected
+    .map((c) => c.connectedAt)
+    .filter((d): d is Date => !!d)
+    .sort((a, b) => a.getTime() - b.getTime())[0];
+  const thirtyDayStreak =
+    !!firstConnectionAt && Date.now() - firstConnectionAt.getTime() >= 30 * 24 * 60 * 60 * 1000;
+
+  const unlockedBadges: string[] = [];
+  if (connected.length >= 1) unlockedBadges.push("first-connection");
+  if (categoriesConnected.has("ehr") && categoriesConnected.has("wearable")) unlockedBadges.push("full-vitals");
+  if (allEmrsLinked) unlockedBadges.push("all-emrs");
+  if (wearableConnectedCount >= 3) unlockedBadges.push("wearable-champion");
+  if (categoriesConnected.has("lab")) unlockedBadges.push("lab-historian");
+  if (categoriesConnected.has("pharmacy")) unlockedBadges.push("med-tracker");
+  if (thirtyDayStreak) unlockedBadges.push("thirty-day-streak");
+
+  return {
+    totalSources: CATALOG.length,
+    connectedSources: connected.length,
+    connectedCategories: Array.from(categoriesConnected),
+    lastConnectedAt: lastConnectedAt ? lastConnectedAt.toISOString() : null,
+    monthlyConnections,
+    freshness,
+    unlockedBadges,
+    recentActivity,
+  };
 }
