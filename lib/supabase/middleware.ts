@@ -5,6 +5,10 @@ import { DEMO_COOKIE, parseDemoCookieValue } from "@/lib/demo";
 const PUBLIC_PATHS = [
   "/", "/login", "/auth/callback", "/auth/forgot", "/auth/reset",
   "/api/auth/demo", "/api/cron", "/_next", "/favicon", "/robots.txt",
+  // Marketing pages
+  "/platform", "/care-management", "/scheduling", "/fhir-apis",
+  "/why-zebra", "/security", "/careers",
+  "/hipaa", "/soc2", "/privacy", "/terms",
 ];
 
 function isPublic(path: string) {

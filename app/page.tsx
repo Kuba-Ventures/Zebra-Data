@@ -1,45 +1,23 @@
 import Link from "next/link";
-import { ZebraMark } from "@/components/ZebraLogo";
-import { ArrowRight, Check, Heart } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { WaitlistForm } from "@/components/landing/WaitlistForm";
 import { Reveal } from "@/components/landing/Reveal";
 import { HeroVisual } from "@/components/landing/HeroVisual";
 import { ArchitectureDiagram } from "@/components/landing/ArchitectureDiagram";
+import { SiteHeader } from "@/components/landing/SiteHeader";
+import { SiteFooter } from "@/components/landing/SiteFooter";
 
 export default function LandingPage() {
   return (
     <>
-      {/* ============ Header ============ */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-surface/70 border-b border-transparent">
-        <div className="max-w-[1200px] mx-auto px-7 py-3.5 flex items-center justify-between gap-6">
-          <Link href="/" className="flex items-center gap-2.5 text-ink">
-            <ZebraMark className="w-8 h-8" />
-            <span className="font-display font-semibold tracking-[-0.02em]">
-              Zebra<span className="text-mid font-medium">Data</span>
-            </span>
-          </Link>
-          <nav className="hidden md:flex items-center gap-1">
-            {[
-              ["Platform", "#platform"],
-              ["Use Cases", "#use-cases"],
-              ["Why Zebra", "#why"],
-              ["Company", "#company"],
-            ].map(([label, href]) => (
-              <a key={href} href={href} className="px-3.5 py-2 text-sm text-mid hover:text-ink hover:bg-surface-2 rounded-lg transition-colors">
-                {label}
-              </a>
-            ))}
-          </nav>
-          <div className="flex items-center gap-2.5">
-            <Link href="/login" className="hidden sm:inline-flex text-sm text-mid hover:text-ink px-3 py-2">
-              Log in
-            </Link>
-            <Link href="/login?intent=signup" className="btn-primary text-sm py-2 px-3.5">
-              Sign Up <ArrowRight className="w-3 h-3" />
-            </Link>
-          </div>
-        </div>
-      </header>
+      <SiteHeader
+        nav={[
+          ["Platform", "#platform"],
+          ["Use Cases", "#use-cases"],
+          ["Why Zebra", "#why"],
+          ["Company", "#company"],
+        ]}
+      />
 
       {/* ============ Hero ============ */}
       <section className="relative overflow-hidden py-[clamp(56px,9vw,120px)]">
@@ -281,49 +259,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ============ Footer ============ */}
-      <footer id="company" className="border-t border-line bg-surface py-14">
-        <div className="max-w-[1200px] mx-auto px-7">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
-              <Link href="/" className="flex items-center gap-2.5 text-ink">
-                <ZebraMark className="w-8 h-8" />
-                <span className="font-display font-semibold tracking-[-0.02em]">
-                  Zebra<span className="text-mid font-medium">Data</span>
-                </span>
-              </Link>
-              <p className="mt-3.5 text-sm text-muted max-w-[32ch]">
-                The connective tissue for healthcare data.
-              </p>
-            </div>
-            <FooterCol title="Platform" links={[["Patient 360", "#platform"], ["Care Management", "#"], ["Scheduling", "#"], ["FHIR APIs", "#"]]} />
-            <FooterCol title="Company" links={[["Why Zebra", "#why"], ["Security", "#"], ["Careers", "#"], ["Contact", "mailto:hello@zebradata.com"]]} />
-            <FooterCol title="Trust" links={[["HIPAA", "#"], ["SOC 2", "#"], ["Privacy", "#"], ["Terms", "#"]]} />
-          </div>
-          <div className="mt-12 pt-6 border-t border-line flex flex-wrap items-center justify-between gap-3 text-xs text-muted">
-            <div>© {new Date().getFullYear()} Zebra Data, Inc. All rights reserved.</div>
-            <div className="inline-flex items-center gap-2">
-              Made with <Heart className="w-3 h-3 text-coral fill-coral" /> care in New York, NY.
-            </div>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
-  );
-}
-
-function FooterCol({ title, links }: { title: string; links: [string, string][] }) {
-  return (
-    <div>
-      <h5 className="text-xs font-semibold uppercase tracking-[0.08em] text-muted mb-3">{title}</h5>
-      <ul className="space-y-2.5">
-        {links.map(([label, href]) => (
-          <li key={label}>
-            <a href={href} className="text-sm text-mid hover:text-ink transition-colors">{label}</a>
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }
 
