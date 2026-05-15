@@ -18,8 +18,12 @@ export type CatalogEntry = {
   emoji?: string;
   /** Which dashboard cards this source feeds into. */
   feeds: RecordTypeName[];
-  /** Optional sub-options (e.g. MyChart's health systems). */
+  /** Optional sub-options (e.g. legacy fixed-list variants). */
   variants?: { id: string; label: string }[];
+  /** When true, the user must search for and name their specific instance
+   *  (e.g. their MyChart-powered health system). The variant id becomes a
+   *  slug of the typed name. */
+  requiresInstance?: boolean;
 };
 
 export const CATALOG: CatalogEntry[] = [
@@ -28,16 +32,12 @@ export const CATALOG: CatalogEntry[] = [
     id: "mychart",
     name: "MyChart (Epic)",
     category: "ehr",
-    description: "Connect VCU Health, UVA Health, Mass General, Cleveland Clinic, and any Epic-based system.",
+    description: "Connect any Epic-based health system — search by name to find yours.",
     brandHue: "#C5252D",
     feeds: ["vital", "lab", "medication", "allergy", "condition", "visit", "imaging"],
-    variants: [
-      { id: "vcu", label: "VCU Health" },
-      { id: "uva", label: "UVA Health" },
-      { id: "mgh", label: "Mass General Brigham" },
-      { id: "cleveland", label: "Cleveland Clinic" },
-      { id: "other", label: "Other Epic system…" },
-    ],
+    // MyChart powers thousands of health systems — the user searches for theirs
+    // at connect time rather than picking from a fixed list.
+    requiresInstance: true,
   },
   {
     id: "cerner",

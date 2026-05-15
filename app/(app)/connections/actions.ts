@@ -21,8 +21,16 @@ async function getProfile(userId: string) {
 }
 
 /** Kick off a connection. For real connectors, redirects to OAuth.
- *  For mock connectors, instantly marks "connected" + seeds sample data. */
-export async function connectSource(catalogId: string, variantId?: string) {
+ *  For mock connectors, instantly marks "connected" + seeds sample data.
+ *
+ *  `variantLabel` is the human-readable name. For free-text variants
+ *  (e.g. user-typed Epic health systems), we use it directly to build the
+ *  connection's displayName instead of looking it up in the catalog. */
+export async function connectSource(
+  catalogId: string,
+  variantId?: string,
+  variantLabel?: string,
+) {
   const user = await requireUser();
   const profile = await getProfile(user.id);
   if (!profile) return;
@@ -33,6 +41,12 @@ export async function connectSource(catalogId: string, variantId?: string) {
   const sourceId = variantId ? `${catalogId}:${variantId}` : catalogId;
   const registry = getRegistry();
   const connector = registry[catalogId] ?? null;
+
+  const resolvedLabel =
+    variantLabel?.trim() ||
+    entry.variants?.find((v) => v.id === variantId)?.label ||
+    undefined;
+  const displayName = entry.name + (resolvedLabel ? ` (${resolvedLabel})` : "");
 
   // Real OAuth: kick off authorization redirect.
   // (Mock connectors use the same flow but their getAuthUrl returns our own callback.)
@@ -47,7 +61,7 @@ export async function connectSource(catalogId: string, variantId?: string) {
         userId: user.id,
         patientId: profile.id,
         sourceId,
-        displayName: entry.name + (variantId ? ` (${entry.variants?.find((v) => v.id === variantId)?.label})` : ""),
+        displayName,
         status: "pending",
         permissions: [],
         syncInterval: "daily",
@@ -70,7 +84,7 @@ export async function connectSource(catalogId: string, variantId?: string) {
       userId: user.id,
       patientId: profile.id,
       sourceId,
-      displayName: entry.name + (variantId ? ` (${entry.variants?.find((v) => v.id === variantId)?.label})` : ""),
+      displayName,
       status: "connected",
       permissions: ["mock:read"],
       syncInterval: "daily",
