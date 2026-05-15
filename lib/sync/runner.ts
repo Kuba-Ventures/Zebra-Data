@@ -147,7 +147,7 @@ export async function runSyncForConnection(connectionId: string): Promise<{ ok: 
   }
 }
 
-/** Run sync for all due connections of all users — invoked by Vercel Cron. */
+/** Run sync for all due connections of all users - invoked by Vercel Cron. */
 export async function runDueSyncs(): Promise<{ totalRan: number; ok: number; failed: number }> {
   const due = await db.execute<{ id: string; sync_interval: string; last_sync_at: string | null }>(sql`
     select id, sync_interval, last_sync_at::text as last_sync_at

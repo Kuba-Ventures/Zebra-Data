@@ -50,7 +50,7 @@ export function ArchitectureDiagram() {
             </span>
             <h3 className="mt-4 font-display font-semibold text-lg text-white">Zebra Patient 360</h3>
             <p className="mt-2 text-sm text-[#B6C0D2] leading-relaxed">
-              A single longitudinal record per patient — deduplicated, structured, and continuously enriched.
+              A single longitudinal record per patient - deduplicated, structured, and continuously enriched.
             </p>
             <ul className="mt-5 grid grid-cols-2 gap-2">
               {["Entity resolution", "NLP extraction", "FHIR normalization", "Cohort signals", "Provenance & audit", "Consent-aware"].map((c) => (

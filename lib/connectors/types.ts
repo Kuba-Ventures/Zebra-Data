@@ -1,5 +1,5 @@
 /**
- * Connector interface. Every source — real or mock — implements this.
+ * Connector interface. Every source - real or mock - implements this.
  * See CONNECTORS.md for how to add a new one.
  */
 import type { recordType } from "@/lib/db/schema";
@@ -21,7 +21,7 @@ export type ConnectorRecord = {
 export type FetchContext = {
   /** Decrypted access token, or null in mock mode. */
   accessToken: string | null;
-  /** When the connection last synced — fetch only newer data when possible. */
+  /** When the connection last synced - fetch only newer data when possible. */
   since: Date | null;
   /** Connection-level external account ID (e.g. Whoop user id). */
   externalAccountId?: string | null;

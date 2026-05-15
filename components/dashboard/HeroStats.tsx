@@ -10,7 +10,7 @@ import { cn, formatDate } from "@/lib/utils";
 import type { ConnectorCategory } from "@/lib/connectors/types";
 
 // ---------------------------------------------------------------------------
-// Public types — what the server passes in.
+// Public types - what the server passes in.
 // ---------------------------------------------------------------------------
 
 export type HeroFreshnessEntry = {
@@ -60,9 +60,9 @@ const EDUCATIONAL_TIPS: Array<{ source: string; tip: string }> = [
   { source: "Whoop", tip: "Whoop unlocks recovery and strain scoring across your entire record." },
   { source: "MyChart", tip: "MyChart pulls vitals, labs, meds, and visits from any Epic-based health system." },
   { source: "Apple Health", tip: "Apple Health is the fastest way to back-fill years of steps, sleep, and HR." },
-  { source: "Quest", tip: "Quest results stream in raw — Zebra normalises reference ranges across labs." },
+  { source: "Quest", tip: "Quest results stream in raw - Zebra normalises reference ranges across labs." },
   { source: "Function Health", tip: "Function Health adds 100+ biomarkers that most annual physicals miss." },
-  { source: "Oura", tip: "Oura gives nightly HRV and body-temp trends — useful baselines for illness detection." },
+  { source: "Oura", tip: "Oura gives nightly HRV and body-temp trends - useful baselines for illness detection." },
   { source: "Headspace", tip: "Headspace contributes meditation minutes and stress trend lines." },
 ];
 
@@ -215,7 +215,7 @@ function CompletenessRing({
             {connectedSources === 0 ? (
               <>
                 Each of <strong className="text-ink">{totalSources}</strong> sources adds roughly{" "}
-                <strong className="text-ink">{Math.round(100 / totalSources)}%</strong> to your unified record. Start anywhere — your data follows you.
+                <strong className="text-ink">{Math.round(100 / totalSources)}%</strong> to your unified record. Start anywhere - your data follows you.
               </>
             ) : (
               <>
@@ -242,7 +242,7 @@ function CompletenessRing({
                         ? "bg-accent-soft text-accent-ink border-accent/25 shadow-sm"
                         : "bg-surface-2 text-muted border-line",
                     )}
-                    title={on ? `${p.label} — connected` : `${p.label} — not connected`}
+                    title={on ? `${p.label} - connected` : `${p.label} - not connected`}
                   >
                     <Icon className={cn("w-3.5 h-3.5", on ? "text-accent" : "text-muted")} />
                     {p.label}
@@ -402,7 +402,7 @@ function FreshnessRow({
         )}
       </div>
       <div className={cn("text-[11px] font-medium tabular-nums", ghost ? "text-muted" : score.textClass)}>
-        {ghost ? "—" : score.label}
+        {ghost ? "-" : score.label}
       </div>
     </div>
   );
@@ -420,7 +420,7 @@ function Legend() {
 
 function scoreFor(lastSyncAt: string | null) {
   if (!lastSyncAt) {
-    return { fill: 25, barClass: "bg-line", textClass: "text-muted", label: "—" };
+    return { fill: 25, barClass: "bg-line", textClass: "text-muted", label: "-" };
   }
   const ageHr = (Date.now() - new Date(lastSyncAt).getTime()) / (1000 * 60 * 60);
   if (ageHr < 24) {
@@ -449,13 +449,13 @@ function InsightCard({
     const real: Array<{ source: string; tip: string }> = [];
     if (connectedCategories.has("wearable")) {
       real.push({ source: "Wearables", tip: "Your resting HR is trending 4 bpm lower than last month." });
-      real.push({ source: "Sleep", tip: "Average sleep efficiency this week: 87% — up 3 pts from last week." });
+      real.push({ source: "Sleep", tip: "Average sleep efficiency this week: 87% - up 3 pts from last week." });
     }
     if (connectedCategories.has("lab")) {
       real.push({ source: "Labs", tip: "You're due for a lipid panel in 12 days based on your last draw." });
     }
     if (connectedCategories.has("ehr")) {
-      real.push({ source: "EMR", tip: "Two visit summaries are missing follow-up notes — worth checking." });
+      real.push({ source: "EMR", tip: "Two visit summaries are missing follow-up notes - worth checking." });
     }
     return real.length > 0 ? real : EDUCATIONAL_TIPS;
   }, [connectedCount, connectedCategories]);

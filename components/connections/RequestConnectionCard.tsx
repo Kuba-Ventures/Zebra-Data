@@ -75,7 +75,7 @@ export function RequestConnectionCard({ category }: { category: ConnectorCategor
                   Request received
                 </h3>
                 <p className="text-sm text-mid mt-1.5">
-                  Thanks — we&apos;ll prioritize {name.trim()} based on demand.
+                  Thanks - we&apos;ll prioritize {name.trim()} based on demand.
                 </p>
                 <button
                   type="button"

@@ -26,7 +26,7 @@ export async function updateAccountProfile(
   }
 
   if (await isDemoSession()) {
-    return { ok: false, error: "Demo session — changes aren't saved. Sign up to keep your profile." };
+    return { ok: false, error: "Demo session - changes aren't saved. Sign up to keep your profile." };
   }
 
   const user = await requireUser();

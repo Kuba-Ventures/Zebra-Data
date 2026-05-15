@@ -63,7 +63,7 @@ export default async function LoginPage({
               <span className="font-serif italic font-normal">finally in one place.</span>
             </h1>
             <p className="mt-5 text-[#B6C0D2] max-w-[42ch] leading-relaxed">
-              Connect MyChart, your wearables, your labs — Zebra resolves them into a single, intelligent record only you control.
+              Connect MyChart, your wearables, your labs - Zebra resolves them into a single, intelligent record only you control.
             </p>
             <ul className="mt-6 space-y-2 text-sm text-[#DDE3F0]">
               {["AI entity resolution across every source", "Conflicts surfaced, not silently merged", "Encrypted, audited, and yours alone"].map((b) => (

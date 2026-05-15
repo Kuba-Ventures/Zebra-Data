@@ -25,7 +25,7 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Zebra Data — The connective tissue for healthcare data",
+  title: "Zebra Data - The connective tissue for healthcare data",
   description:
     "Zebra Data unifies fragmented patient records across EMRs, labs, pharmacies, and claims into a single intelligent Patient 360.",
   icons: {

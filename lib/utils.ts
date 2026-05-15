@@ -6,9 +6,9 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatDate(date: Date | string | null | undefined, format: "short" | "long" | "relative" = "short") {
-  if (!date) return "—";
+  if (!date) return "-";
   const d = typeof date === "string" ? new Date(date) : date;
-  if (Number.isNaN(d.getTime())) return "—";
+  if (Number.isNaN(d.getTime())) return "-";
   if (format === "relative") {
     const diffMs = Date.now() - d.getTime();
     const min = Math.floor(diffMs / 60_000);
@@ -27,6 +27,6 @@ export function formatDate(date: Date | string | null | undefined, format: "shor
 }
 
 export function maskSsn(last4: string | null | undefined) {
-  if (!last4) return "—";
+  if (!last4) return "-";
   return `•••-••-${last4}`;
 }

@@ -4,11 +4,11 @@ import type { RecordTypeName } from "@/lib/connectors/types";
  * Which strategy do we apply when two sources produce the "same logical fact"?
  *
  *  - "most_recent":      replace the unified record with the newer one
- *                        (e.g. vitals, wearable metrics, sleep — most recent wins)
+ *                        (e.g. vitals, wearable metrics, sleep - most recent wins)
  *  - "preserve_history": never replace; every raw record becomes a unified row
  *                        (e.g. lab results over time, visits, imaging)
  *  - "flag_conflict":    if sources disagree, raise a conflict for user review
- *                        (e.g. allergies, conditions, medications — too sensitive
+ *                        (e.g. allergies, conditions, medications - too sensitive
  *                         to silently merge)
  *
  * Centralized so the policy can evolve without touching the resolver.

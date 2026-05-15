@@ -66,7 +66,7 @@ export default function LandingPage() {
             <Reveal delay={2}>
               <p className="mt-5 max-w-[54ch] text-[clamp(1.05rem,1.4vw,1.18rem)] leading-relaxed text-mid">
                 Zebra Data unifies fragmented patient records across providers, EMRs, labs, pharmacies, and claims
-                into a single, intelligent Patient 360 — so clinical teams can finally see the whole person.
+                into a single, intelligent Patient 360 - so clinical teams can finally see the whole person.
               </p>
             </Reveal>
             <Reveal delay={3}>
@@ -113,17 +113,17 @@ export default function LandingPage() {
               {
                 n: "01",
                 title: "Fragmented EMR access",
-                body: "Records live behind a patchwork of Epic, Cerner, athena, and dozens of regional systems — each with its own auth, format, and gatekeeper. Teams spend hours reassembling histories that should be one query.",
+                body: "Records live behind a patchwork of Epic, Cerner, athena, and dozens of regional systems - each with its own auth, format, and gatekeeper. Teams spend hours reassembling histories that should be one query.",
               },
               {
                 n: "02",
                 title: "Unstructured clinical data",
-                body: "The most important signals — discharge summaries, progress notes, faxed referrals — are buried in PDFs and free text. Without structured extraction, they're invisible to every downstream workflow.",
+                body: "The most important signals - discharge summaries, progress notes, faxed referrals - are buried in PDFs and free text. Without structured extraction, they're invisible to every downstream workflow.",
               },
               {
                 n: "03",
                 title: "Entity resolution across systems",
-                body: 'Is "Maria Garcia" in Epic the same person as "M. Garcia-Lopez" in the lab feed? Probabilistic matching at scale is hard — and getting it wrong has clinical consequences.',
+                body: 'Is "Maria Garcia" in Epic the same person as "M. Garcia-Lopez" in the lab feed? Probabilistic matching at scale is hard - and getting it wrong has clinical consequences.',
               },
             ].map((p, i) => (
               <Reveal key={p.n} delay={(i + 1) as 1 | 2 | 3}>
@@ -161,7 +161,7 @@ export default function LandingPage() {
                 97%
               </div>
               <p className="relative text-[#C7CFDD] max-w-[52ch]">
-                <strong className="text-white font-semibold">of hospital data goes unused.</strong> It exists — generated every minute by EMRs, labs, devices, and notes — but it never reaches the point of care where it could change a decision.
+                <strong className="text-white font-semibold">of hospital data goes unused.</strong> It exists - generated every minute by EMRs, labs, devices, and notes - but it never reaches the point of care where it could change a decision.
               </p>
             </div>
           </Reveal>
@@ -210,22 +210,22 @@ export default function LandingPage() {
               {
                 title: "AI-powered entity resolution",
                 body:
-                  "Probabilistic matching trained on real-world clinical data — across name variants, address moves, and missing identifiers. Audit-ready confidence scores on every match.",
+                  "Probabilistic matching trained on real-world clinical data - across name variants, address moves, and missing identifiers. Audit-ready confidence scores on every match.",
               },
               {
                 title: "Language & culturally aware navigation",
                 body:
-                  "Care navigation that meets patients where they are — in their preferred language, with cultural and social context built into the routing logic, not bolted on after.",
+                  "Care navigation that meets patients where they are - in their preferred language, with cultural and social context built into the routing logic, not bolted on after.",
               },
               {
                 title: "API-first architecture",
                 body:
-                  "Every capability is an API. FHIR-native endpoints, webhooks, and event streams — drop Zebra into the systems you already run, instead of replacing them.",
+                  "Every capability is an API. FHIR-native endpoints, webhooks, and event streams - drop Zebra into the systems you already run, instead of replacing them.",
               },
               {
                 title: "Workflow-ready, not just data-ready",
                 body:
-                  "Purpose-built for care management and scheduling. Outcomes, not just integrations — so your clinical and ops teams feel the lift in week one.",
+                  "Purpose-built for care management and scheduling. Outcomes, not just integrations - so your clinical and ops teams feel the lift in week one.",
               },
             ].map((f, i) => (
               <Reveal key={f.title} delay={(i + 1) as 1 | 2 | 3 | 4}>
@@ -265,7 +265,7 @@ export default function LandingPage() {
               Be first to see the platform.
             </h2>
             <p className="mt-4 text-[#B6C0D2] text-lg">
-              We&apos;re onboarding design partners now — drop your email and we&apos;ll be in touch in days, not months.
+              We&apos;re onboarding design partners now - drop your email and we&apos;ll be in touch in days, not months.
             </p>
             <div className="mt-8 flex justify-center">
               <WaitlistForm variant="dark" />

@@ -93,7 +93,7 @@ export function WearablesCard({
     >
       <div className="grid grid-cols-2 gap-5">
         {steps && <Stat label="Steps today" value={Intl.NumberFormat().format(Number((steps.normalizedPayload as any).value))} />}
-        {sleepHr && <Stat label="Sleep" value={(sleepHr.normalizedPayload as any).hours ?? "—"} unit="hrs" hint={(sleepHr.normalizedPayload as any).quality} />}
+        {sleepHr && <Stat label="Sleep" value={(sleepHr.normalizedPayload as any).hours ?? "-"} unit="hrs" hint={(sleepHr.normalizedPayload as any).quality} />}
         {hrv && <Stat label="HRV" value={(hrv.normalizedPayload as any).value} unit="ms" />}
         {recovery && <Stat label="Recovery" value={(recovery.normalizedPayload as any).value} unit="%" />}
       </div>
@@ -336,9 +336,9 @@ export function FitnessNutritionCard({
         )}
         {macros && (
           <div className="grid grid-cols-3 gap-3">
-            <Stat label="Cal" value={(macros.normalizedPayload as any).calories ?? "—"} />
-            <Stat label="Protein" value={(macros.normalizedPayload as any).protein ?? "—"} unit="g" />
-            <Stat label="Carbs" value={(macros.normalizedPayload as any).carbs ?? "—"} unit="g" />
+            <Stat label="Cal" value={(macros.normalizedPayload as any).calories ?? "-"} />
+            <Stat label="Protein" value={(macros.normalizedPayload as any).protein ?? "-"} unit="g" />
+            <Stat label="Carbs" value={(macros.normalizedPayload as any).carbs ?? "-"} unit="g" />
           </div>
         )}
       </div>
@@ -380,8 +380,8 @@ export function MentalHealthSleepCard({
         )}
         {lastSleep && (
           <div className="grid grid-cols-2 gap-3">
-            <Stat label="Sleep" value={(lastSleep.normalizedPayload as any).hours ?? "—"} unit="hrs" />
-            <Stat label="Efficiency" value={(lastSleep.normalizedPayload as any).efficiency ?? "—"} unit="%" />
+            <Stat label="Sleep" value={(lastSleep.normalizedPayload as any).hours ?? "-"} unit="hrs" />
+            <Stat label="Efficiency" value={(lastSleep.normalizedPayload as any).efficiency ?? "-"} unit="%" />
           </div>
         )}
       </div>

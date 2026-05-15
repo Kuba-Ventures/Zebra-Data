@@ -153,7 +153,7 @@ export function IntakeWizard({
 }
 
 // ============================================================================
-// STEP 1 — Identity
+// STEP 1 - Identity
 // ============================================================================
 function Step1Form({
   value, defaultEmail, onChange, errors,
@@ -216,7 +216,7 @@ function Step1Form({
 }
 
 // ============================================================================
-// STEP 2 — Address + identifiers
+// STEP 2 - Address + identifiers
 // ============================================================================
 function Step2Form({
   value, onChange, errors,
@@ -239,7 +239,7 @@ function Step2Form({
         </Field>
         <Field label="State" error={errors.addressState} required>
           <select className="input" value={v.addressState ?? ""} onChange={(e) => set("addressState", e.target.value)}>
-            <option value="" disabled>—</option>
+            <option value="" disabled>-</option>
             {US_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
           </select>
         </Field>
@@ -296,7 +296,7 @@ function Step2Form({
 }
 
 // ============================================================================
-// STEP 3 — Insurance
+// STEP 3 - Insurance
 // ============================================================================
 function Step3Form({
   value, onChange, errors,
@@ -401,7 +401,7 @@ function PolicyFields({
 }
 
 // ============================================================================
-// STEP 4 — Providers
+// STEP 4 - Providers
 // ============================================================================
 function Step4Form({
   value, onChange, errors,
@@ -500,7 +500,7 @@ function Step4Form({
 }
 
 // ============================================================================
-// STEP 5 — Review & consent
+// STEP 5 - Review & consent
 // ============================================================================
 function Step5Review({
   progress, onChange, errors,
@@ -517,26 +517,26 @@ function Step5Review({
       <div className="space-y-4">
         <ReviewBlock title="Identity">
           <ReviewRow label="Name" value={`${s1?.legalFirstName ?? ""} ${s1?.middleInitial ? s1.middleInitial + ". " : ""}${s1?.lastName ?? ""}${s1?.preferredName ? ` (${s1.preferredName})` : ""}`} />
-          <ReviewRow label="Date of birth" value={s1?.dob ?? "—"} />
-          <ReviewRow label="Sex / gender" value={`${s1?.sexAtBirth ?? "—"}${s1?.genderIdentity ? ` · ${s1.genderIdentity}` : ""}`} />
-          <ReviewRow label="Contact" value={`${s1?.phone ?? "—"} · ${s1?.email ?? "—"}`} />
+          <ReviewRow label="Date of birth" value={s1?.dob ?? "-"} />
+          <ReviewRow label="Sex / gender" value={`${s1?.sexAtBirth ?? "-"}${s1?.genderIdentity ? ` · ${s1.genderIdentity}` : ""}`} />
+          <ReviewRow label="Contact" value={`${s1?.phone ?? "-"} · ${s1?.email ?? "-"}`} />
         </ReviewBlock>
 
         <ReviewBlock title="Address & identifiers">
           <ReviewRow label="Address" value={`${s2?.addressStreet ?? ""}, ${s2?.addressCity ?? ""} ${s2?.addressState ?? ""} ${s2?.addressZip ?? ""}`} />
           <ReviewRow label="SSN" value={maskSsn(s2?.ssnLast4 ?? null)} />
-          <ReviewRow label="Emergency contact" value={s2 ? `${s2.emergencyContactName} (${s2.emergencyContactRelationship}) · ${s2.emergencyContactPhone}` : "—"} />
+          <ReviewRow label="Emergency contact" value={s2 ? `${s2.emergencyContactName} (${s2.emergencyContactRelationship}) · ${s2.emergencyContactPhone}` : "-"} />
         </ReviewBlock>
 
         <ReviewBlock title="Insurance">
-          <ReviewRow label="Primary" value={s3 ? `${s3.primary.carrier} · Member ID stored securely` : "—"} />
+          <ReviewRow label="Primary" value={s3 ? `${s3.primary.carrier} · Member ID stored securely` : "-"} />
           {s3?.secondary?.carrier && <ReviewRow label="Secondary" value={`${s3.secondary.carrier}`} />}
         </ReviewBlock>
 
         <ReviewBlock title="Providers">
-          <ReviewRow label="Primary care" value={s4?.pcp.name ? `${s4.pcp.name}${s4.pcp.practice ? ` · ${s4.pcp.practice}` : ""}` : "—"} />
-          <ReviewRow label="Specialists" value={(s4?.specialists?.filter((x) => x.name).length ?? 0) === 0 ? "—" : (s4?.specialists ?? []).filter((x) => x.name).map((s) => `${s.name}${s.specialty ? ` (${s.specialty})` : ""}`).join(", ")} />
-          <ReviewRow label="Pharmacy" value={s4?.pharmacy.name || "—"} />
+          <ReviewRow label="Primary care" value={s4?.pcp.name ? `${s4.pcp.name}${s4.pcp.practice ? ` · ${s4.pcp.practice}` : ""}` : "-"} />
+          <ReviewRow label="Specialists" value={(s4?.specialists?.filter((x) => x.name).length ?? 0) === 0 ? "-" : (s4?.specialists ?? []).filter((x) => x.name).map((s) => `${s.name}${s.specialty ? ` (${s.specialty})` : ""}`).join(", ")} />
+          <ReviewRow label="Pharmacy" value={s4?.pharmacy.name || "-"} />
         </ReviewBlock>
       </div>
 
@@ -579,7 +579,7 @@ function ReviewRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="grid grid-cols-[120px_1fr] gap-3 text-sm">
       <dt className="text-mid">{label}</dt>
-      <dd className="text-ink">{value || "—"}</dd>
+      <dd className="text-ink">{value || "-"}</dd>
     </div>
   );
 }

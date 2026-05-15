@@ -81,12 +81,6 @@
   .eyebrow {
     @apply inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.04em] text-mid;
   }
-  .eyebrow::before {
-    content: "";
-    width: 6px; height: 6px; border-radius: 9999px;
-    background: #1B5BFF;
-    box-shadow: 0 0 0 4px rgba(27, 91, 255, 0.12);
-  }
 
   .skeleton {
     @apply relative overflow-hidden bg-line-soft rounded-md;
@@ -118,7 +112,7 @@
   50%      { opacity: 0.55; transform: scale(1.04); }
 }
 
-/* Hero stats — subtle border pulse when the user has zero connections,
+/* Hero stats - subtle border pulse when the user has zero connections,
    nudging them to add their first source. */
 @keyframes ring-pulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(27, 91, 255, 0.16), 0 1px 2px rgba(10,22,40,0.04); }

@@ -5,7 +5,7 @@ import * as schema from "./schema";
 
 const url = process.env.DATABASE_URL;
 if (!url) {
-  // Allowed during build/typecheck — error surfaces at first runtime call.
+  // Allowed during build/typecheck - error surfaces at first runtime call.
   console.warn("[db] DATABASE_URL not set. Drizzle will fail at runtime.");
 }
 

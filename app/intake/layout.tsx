@@ -11,7 +11,7 @@ export default async function IntakeLayout({ children }: { children: React.React
   const user = await getUser();
   if (!user) redirect("/login");
 
-  // Demo sessions go straight to the dashboard — intake writes need a real Supabase user.
+  // Demo sessions go straight to the dashboard - intake writes need a real Supabase user.
   if (await isDemoSession()) {
     redirect("/dashboard");
   }

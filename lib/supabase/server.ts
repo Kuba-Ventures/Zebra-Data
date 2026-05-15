@@ -18,7 +18,7 @@ export async function getSupabaseServer() {
               cookieStore.set(name, value, options),
             );
           } catch {
-            // Server components cannot set cookies — middleware handles refresh.
+            // Server components cannot set cookies - middleware handles refresh.
           }
         },
       },

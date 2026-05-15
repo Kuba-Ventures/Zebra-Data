@@ -1,4 +1,4 @@
-// Pure demo-mode helpers — no Next imports so this is safe to use from
+// Pure demo-mode helpers - no Next imports so this is safe to use from
 // middleware (Edge runtime) as well as Server Components / Route Handlers.
 
 export const DEMO_COOKIE = "zebra_demo_user";

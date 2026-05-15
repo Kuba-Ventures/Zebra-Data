@@ -13,7 +13,7 @@ export type CatalogEntry = {
   name: string;
   category: ConnectorCategory;
   description: string;
-  /** Inline SVG logo as a React node — keeps the bundle small and crisp. */
+  /** Inline SVG logo as a React node - keeps the bundle small and crisp. */
   brandHue: string;
   emoji?: string;
   /** Which dashboard cards this source feeds into. */
@@ -32,10 +32,10 @@ export const CATALOG: CatalogEntry[] = [
     id: "mychart",
     name: "MyChart (Epic)",
     category: "ehr",
-    description: "Connect any Epic-based health system — search by name to find yours.",
+    description: "Connect any Epic-based health system - search by name to find yours.",
     brandHue: "#C5252D",
     feeds: ["vital", "lab", "medication", "allergy", "condition", "visit", "imaging"],
-    // MyChart powers thousands of health systems — the user searches for theirs
+    // MyChart powers thousands of health systems - the user searches for theirs
     // at connect time rather than picking from a fixed list.
     requiresInstance: true,
   },

@@ -120,7 +120,7 @@ function EmailSection({ currentEmail, isDemo }: { currentEmail: string; isDemo: 
     }
 
     if (isDemo) {
-      setStatus({ kind: "err", msg: "Demo session — sign up to change your email." });
+      setStatus({ kind: "err", msg: "Demo session - sign up to change your email." });
       return;
     }
 
@@ -164,7 +164,7 @@ function PasswordSection({ isDemo }: { isDemo: boolean }) {
     if (pw !== pw2) { setStatus({ kind: "err", msg: "Passwords don't match." }); return; }
 
     if (isDemo) {
-      setStatus({ kind: "err", msg: "Demo session — sign up to set a real password." });
+      setStatus({ kind: "err", msg: "Demo session - sign up to set a real password." });
       return;
     }
 
@@ -335,7 +335,7 @@ function SaveRow({
         </span>
       )}
       {demoNote && !status && (
-        <span className="text-xs text-muted">Demo session — won&apos;t be saved.</span>
+        <span className="text-xs text-muted">Demo session - won&apos;t be saved.</span>
       )}
     </div>
   );

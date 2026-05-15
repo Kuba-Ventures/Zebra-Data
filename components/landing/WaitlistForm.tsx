@@ -21,11 +21,11 @@ export function WaitlistForm({ variant = "light" }: { variant?: "light" | "dark"
     }
     if (!EMAIL_RE.test(v)) {
       setState("error");
-      setMessage("That email doesn't look right — mind double-checking?");
+      setMessage("That email doesn't look right - mind double-checking?");
       return;
     }
     setState("success");
-    setMessage("Thanks — we'll be in touch from hello@zebradata.com.");
+    setMessage("Thanks - we'll be in touch from hello@zebradata.com.");
   };
 
   const isDark = variant === "dark";

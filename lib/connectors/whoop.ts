@@ -89,7 +89,7 @@ export const whoopConnector: Connector = {
       };
     }
 
-    // Real fetch. Trimmed for brevity — real impl would page through cycles/sleep/workouts.
+    // Real fetch. Trimmed for brevity - real impl would page through cycles/sleep/workouts.
     try {
       const headers = { authorization: `Bearer ${ctx.accessToken}` };
       const [recoveryRes, sleepRes, workoutRes] = await Promise.all([

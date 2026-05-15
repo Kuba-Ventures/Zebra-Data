@@ -49,7 +49,7 @@ export async function resolveRecordsForPatient(opts: {
     const sameGroup = candidates.filter((u) => sameGroupingKey(u.normalizedPayload, groupingKey, raw.recordType));
 
     if (policy === "preserve_history" || sameGroup.length === 0) {
-      // No prior match — insert a fresh unified record.
+      // No prior match - insert a fresh unified record.
       await db.insert(unifiedTable).values({
         patientId,
         recordType: raw.recordType,
@@ -86,7 +86,7 @@ export async function resolveRecordsForPatient(opts: {
       const incomingVal = canonicalValue(raw.payload, raw.recordType);
       const existingVal = canonicalValue(existing.normalizedPayload, raw.recordType);
       if (incomingVal === existingVal) {
-        // Identical — just add source attribution.
+        // Identical - just add source attribution.
         await db
           .update(unifiedTable)
           .set({ sourceRecordIds: dedupeArr([...(existing.sourceRecordIds ?? []), raw.id]) })
@@ -170,8 +170,8 @@ function dayBucket(d: Date | string | null): string {
 function canonicalValue(payload: unknown, recordType: RecordTypeName): string {
   const p = (payload ?? {}) as Record<string, unknown>;
   switch (recordType) {
-    case "allergy":   return `${p.name} (${p.severity ?? "—"})`;
-    case "condition": return `${p.name} · ${p.status ?? "—"}`;
+    case "allergy":   return `${p.name} (${p.severity ?? "-"})`;
+    case "condition": return `${p.name} · ${p.status ?? "-"}`;
     case "medication": return `${p.name} · ${p.dosage} · ${p.frequency}`;
     case "lab":       return `${p.name}: ${p.value} ${p.unit ?? ""}`;
     case "vital":     return `${p.kind}: ${p.value}`;

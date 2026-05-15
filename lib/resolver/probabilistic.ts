@@ -1,6 +1,6 @@
 /**
  * Lightweight string similarity helpers used for probabilistic patient matching.
- * Pure functions — keep the resolver layer dependency-light.
+ * Pure functions - keep the resolver layer dependency-light.
  */
 
 /** Jaro-Winkler similarity. Returns 0–1. */

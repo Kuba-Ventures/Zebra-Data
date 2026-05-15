@@ -21,7 +21,7 @@ export function ConflictsCard({ conflicts }: { conflicts: Conflict[] }) {
         <div className="mt-5 flex-1 flex flex-col items-start justify-center">
           <div className="text-sm font-medium text-ink">No conflicts right now.</div>
           <p className="text-[13.5px] text-mid mt-1.5 leading-relaxed">
-            When sources disagree, we surface the difference here — we never silently merge.
+            When sources disagree, we surface the difference here - we never silently merge.
           </p>
         </div>
       </div>

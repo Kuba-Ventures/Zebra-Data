@@ -155,7 +155,7 @@ function buildHeroData(conns: ConnRow[]) {
       };
     });
 
-  // Badge unlock rules — derived purely from current connection state.
+  // Badge unlock rules - derived purely from current connection state.
   const ehrIds = CATALOG.filter((c) => c.category === "ehr").map((c) => c.id);
   const wearableConnectedCount = CATALOG.filter(
     (c) => c.category === "wearable" && connectedBySourceBase.has(c.id),

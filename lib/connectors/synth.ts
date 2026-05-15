@@ -4,7 +4,7 @@ import type { ConnectorRecord } from "./types";
  * Synthetic data generators. Output realistic-looking shapes for every record
  * type so the dashboard fills up after any mock connection.
  *
- * No real PHI here — names, values, and dates are fabricated.
+ * No real PHI here - names, values, and dates are fabricated.
  */
 
 function daysAgo(n: number): Date {
@@ -104,7 +104,7 @@ export function synthMedications(sourceId: string): ConnectorRecord[] {
 
 // ============ Allergies ============
 export function synthAllergies(sourceId: string): ConnectorRecord[] {
-  // Pick 1–2 from a small set — and intentionally vary which appear per source.
+  // Pick 1–2 from a small set - and intentionally vary which appear per source.
   const all = [
     { name: "Penicillin", severity: "moderate" },
     { name: "Peanuts", severity: "severe" },
@@ -154,7 +154,7 @@ export function synthVisits(sourceId: string, _days: number): ConnectorRecord[] 
       effectiveDate: daysAgo(rand(60, 120)),
       payload: {
         provider: "Dr. Lee Chen, MD",
-        reason: "Follow-up — hypertension",
+        reason: "Follow-up - hypertension",
         summary: "BP improved on current regimen. Continue lisinopril 10mg.",
         source: sourceId,
       },

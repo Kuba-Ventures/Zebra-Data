@@ -83,6 +83,6 @@ export const INTAKE_STEPS = [
   { id: 1, key: "identity",  title: "Personal identity",   blurb: "How your records are matched across systems." },
   { id: 2, key: "address",   title: "Address & identifiers", blurb: "Used to resolve you across health systems." },
   { id: 3, key: "insurance", title: "Insurance",           blurb: "We use this to fetch claims & coverage data." },
-  { id: 4, key: "providers", title: "Primary providers",   blurb: "Optional — speeds up your first sync." },
+  { id: 4, key: "providers", title: "Primary providers",   blurb: "Optional - speeds up your first sync." },
   { id: 5, key: "review",    title: "Review & consent",    blurb: "Confirm what we'll store and how we'll use it." },
 ] as const;

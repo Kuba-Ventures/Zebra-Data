@@ -207,7 +207,7 @@ const LOGO_DOMAINS: Record<string, string> = {
 };
 
 // Common Epic-based health systems used to power MyChart, surfaced only when
-// the user types something matching. Not exhaustive — the user can submit any
+// the user types something matching. Not exhaustive - the user can submit any
 // system name they type, which becomes the connection's display label.
 const COMMON_EPIC_SYSTEMS = [
   "VCU Health",
@@ -317,7 +317,7 @@ function InstanceSearch({
       <div className="max-h-[260px] overflow-y-auto py-1">
         {q.length === 0 && (
           <div className="px-3 py-3 text-[12px] text-mid leading-relaxed">
-            Type the name of your health system — e.g. <span className="text-ink font-medium">Stanford Health Care</span> or <span className="text-ink font-medium">Mayo Clinic</span>.
+            Type the name of your health system - e.g. <span className="text-ink font-medium">Stanford Health Care</span> or <span className="text-ink font-medium">Mayo Clinic</span>.
           </div>
         )}
 

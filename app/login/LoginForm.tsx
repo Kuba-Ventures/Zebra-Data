@@ -243,7 +243,7 @@ export function LoginForm({
 
 function humanize(msg: string) {
   if (/invalid login credentials/i.test(msg)) return "Email or password is incorrect.";
-  if (/user already registered/i.test(msg)) return "That email is already registered — try signing in instead.";
+  if (/user already registered/i.test(msg)) return "That email is already registered - try signing in instead.";
   if (/email not confirmed/i.test(msg)) return "Please confirm your email before signing in.";
   return msg;
 }
