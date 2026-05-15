@@ -42,7 +42,7 @@ export function UserMenu({ email }: { email: string }) {
             <div className="text-sm font-medium truncate mt-0.5">{email}</div>
           </div>
           <button
-            onClick={() => router.push("/dashboard")}
+            onClick={() => { setOpen(false); router.push("/account"); }}
             className="w-full text-left flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm hover:bg-surface-2"
           >
             <User2 className="w-4 h-4 text-mid" />
