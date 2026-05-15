@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { CATALOG, catalogByCategory } from "@/lib/connectors/catalog";
 import { CATEGORY_LABEL, type ConnectorCategory } from "@/lib/connectors/types";
 import { SourceCard } from "@/components/connections/SourceCard";
+import { RequestConnectionCard } from "@/components/connections/RequestConnectionCard";
 import { Sparkles } from "lucide-react";
 
 export const metadata = { title: "Connections · Zebra Data" };
@@ -69,6 +70,7 @@ export default async function ConnectionsPage() {
                   connection={connByBaseId.get(entry.id) ?? null}
                 />
               ))}
+              <RequestConnectionCard category={cat} />
             </div>
           </section>
         );
