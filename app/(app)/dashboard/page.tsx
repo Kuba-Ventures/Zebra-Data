@@ -21,19 +21,22 @@ export default async function DashboardPage() {
     .where(eq(patientProfiles.userId, user.id))
     .limit(1);
 
-  if (!profile) return null;
+  // No profile (e.g. demo session) → render the empty Patient 360 shell.
+  const records = profile
+    ? await db
+        .select()
+        .from(unifiedRecords)
+        .where(eq(unifiedRecords.patientId, profile.id))
+        .orderBy(desc(unifiedRecords.effectiveDate))
+    : [];
 
-  const records = await db
-    .select()
-    .from(unifiedRecords)
-    .where(eq(unifiedRecords.patientId, profile.id))
-    .orderBy(desc(unifiedRecords.effectiveDate));
-
-  const userConflicts = await db
-    .select()
-    .from(conflictsTable)
-    .where(and(eq(conflictsTable.patientId, profile.id), eq(conflictsTable.status, "pending")))
-    .orderBy(desc(conflictsTable.createdAt));
+  const userConflicts = profile
+    ? await db
+        .select()
+        .from(conflictsTable)
+        .where(and(eq(conflictsTable.patientId, profile.id), eq(conflictsTable.status, "pending")))
+        .orderBy(desc(conflictsTable.createdAt))
+    : [];
 
   const conns = await db
     .select()
@@ -45,7 +48,7 @@ export default async function DashboardPage() {
     return acc;
   }, {});
 
-  const greeting = greetingFor(profile.preferredName || profile.legalFirstName || "there");
+  const greeting = greetingFor(profile?.preferredName || profile?.legalFirstName || "there");
 
   return (
     <div className="max-w-[1200px] mx-auto px-6 py-8 sm:py-10">
