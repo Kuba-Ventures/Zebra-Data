@@ -38,7 +38,7 @@ export function SiteFooter() {
               </span>
             </Link>
             <p className="mt-3.5 text-sm text-muted max-w-[32ch]">
-              The connective tissue for healthcare data.
+              The connective tissue for modern healthcare data.
             </p>
           </div>
           <FooterCol title="Platform" links={PLATFORM} />
