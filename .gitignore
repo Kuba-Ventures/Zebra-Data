@@ -27,3 +27,6 @@ next-env.d.ts
 
 # Drizzle
 drizzle/meta
+
+# factory: per-run verdict marker (never committed)
+.factory-verdict

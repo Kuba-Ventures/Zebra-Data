@@ -1,0 +1,103 @@
+name: factory
+
+# Supervised PR factory. Every PR runs two checks:
+#   factory-tests  — the Vitest safety net (npm test)
+#   factory-review — the supervised reviewer, turned into a fail-closed pass/fail check
+#
+# factory-review is GREEN whenever the reviewer actually RAN and produced a verdict
+# (APPROVE-LOWRISK or ESCALATE) — so a human can merge an escalated PR normally, no admin
+# override needed. It is RED only when no real review happened (fail-closed) — e.g. a PR that
+# modifies .github/** which the Claude action skips by design, or an unrecognized verdict.
+#
+# The verdict still governs AUTO-merge: only APPROVE-LOWRISK is auto-merge-eligible (gated
+# behind the repo variable FACTORY_AUTOMERGE, unset = off). ESCALATE is reviewed + labeled,
+# then left for a human to merge deliberately. Auto-merge is enabled only after a soak.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  factory-tests:
+    name: factory-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  factory-review:
+    name: factory-review
+    needs: factory-tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Supervised review
+        uses: anthropics/claude-code-action@v1
+        with:
+          # Auth-agnostic: whichever secret is set gets used. Set ANTHROPIC_API_KEY
+          # (API credits) or CLAUDE_CODE_OAUTH_TOKEN (Claude subscription), org- or repo-level.
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          additional_permissions: |
+            actions: read
+          claude_args: '--allowed-tools "Read,Grep,Glob,Write,Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment:*),Bash(gh pr edit:*),Bash(git diff:*),Bash(git fetch:*),Bash(git log:*)"'
+          prompt: |
+            You are the reviewer for a supervised PR factory. Review pull request
+            #${{ github.event.pull_request.number }} in ${{ github.repository }}.
+
+            The factory-tests job has already passed — this job depends on it.
+
+            Use the **pr-reviewer** subagent defined at .claude/agents/pr-reviewer.md and
+            follow its instructions exactly:
+              1. Read the `## Merge policy` block in CLAUDE.md to learn this repo's low-risk
+                 surfaces and its always-escalate surfaces.
+              2. Read the PR diff against the base branch.
+              3. Walk the escalation gates and decide APPROVE-LOWRISK or ESCALATE. When in
+                 doubt, ESCALATE — this is a paying client's product.
+
+            Then take exactly these actions:
+              1. Post your review as a PR comment, ending with the exact VERDICT line
+                 (`VERDICT: APPROVE-LOWRISK` or `VERDICT: ESCALATE — <reason>`).
+              2. Apply the verdict LABEL — this is how the merge gate is computed, so it is
+                 REQUIRED:
+                 - If APPROVE-LOWRISK: add label `factory:lowrisk` and remove `factory:escalate`.
+                 - If ESCALATE: add label `factory:escalate` and remove `factory:lowrisk`.
+
+            Do NOT merge the PR under any circumstances.
+
+      - name: Compute merge gate (fail-closed)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # GREEN if the reviewer ran and applied a verdict label (low-risk OR escalate), so
+          # escalated PRs stay human-mergeable without an admin override. RED (fail-closed) when
+          # neither label is present — i.e. the review did not run (e.g. a PR touching .github/**
+          # that the Claude action skips). The label is set via the GitHub API by the reviewer,
+          # so it's reliable regardless of the action's working directory.
+          labels="$(gh pr view ${{ github.event.pull_request.number }} --repo ${{ github.repository }} --json labels --jq '[.labels[].name] | join(",")')"
+          echo "PR labels: ${labels}"
+          if printf '%s' "$labels" | grep -q 'factory:lowrisk'; then
+            echo "APPROVE-LOWRISK — low-risk; eligible for auto-merge."
+            exit 0
+          fi
+          if printf '%s' "$labels" | grep -q 'factory:escalate'; then
+            echo "ESCALATE — reviewed and flagged for a human. Mergeable by a person; will not auto-merge."
+            exit 0
+          fi
+          echo "::error::No factory verdict label applied — the reviewer did not run (e.g. a PR that modifies .github/** which the Claude action skips). Failing closed; a human admin must review and override."
+          exit 1
